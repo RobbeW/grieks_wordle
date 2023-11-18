@@ -21,7 +21,7 @@ function closeModal() {
 function generateUrl() {
   if (customWord.value && customWord.value.length === 5) {
     const encodedWord = btoa(customWord.value.toLowerCase());
-    generatedUrl.value = `http://latijnwordle.netlify.app/?${encodedWord}`;
+    generatedUrl.value = `http://griekswordle.netlify.app/?${encodedWord}`;
     showMessage('URL gereed om te kopiëren.');
   } else {
     showMessage('Voer een woord in met quinque karaters!');
@@ -195,10 +195,10 @@ function genResultGrid() {
 }
 
 function promptForCustomWord() {
-  const customWord = window.prompt('Voer een Latijns woord in met vijf tekens:');
+  const customWord = window.prompt('Voer een Oudgrieks woord in met vijf tekens:');
   if (customWord && customWord.length === 5) {
     const encodedWord = btoa(customWord.toLowerCase());
-    const newUrl = `http://latijnwordle.netlify.app/?${encodedWord}`;
+    const newUrl = `http://griekswordle.netlify.app/?${encodedWord}`;
     // Sla de URL op in een state of data-eigenschap in plaats van direct te proberen te kopiëren
     this.generatedUrl = newUrl;
     // Geef aan de gebruiker aan dat ze op een knop moeten klikken om de URL te kopiëren
@@ -215,7 +215,7 @@ function promptForCustomWord() {
 
 <template>
 <div v-if="isModalVisible" class="custom-modal">
-  <input v-model="customWord" type="text" placeholder="Voer een Latijns woord in met vijf tekens">
+  <input v-model="customWord" type="text" placeholder="Voer een Oudgrieks woord in met vijf tekens">
   <button class="button" @click="generateUrl">Genereer URL</button>
   <button class="button" @click="copyUrlToClipboard">Kopieer URL</button>
   <button class="button" @click="closeModal">Sluit</button>
@@ -227,7 +227,7 @@ function promptForCustomWord() {
     </div>
   </Transition>
   <header>
-    <h1>LATIJNSE VVORDLE</h1>
+    <h1>OUDGRIEKSE VVORDLE</h1>
 
   <!--Knoppen bovenaan de pagina.-->
   <div class="button-container">
