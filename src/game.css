@@ -1,0 +1,80 @@
+body {
+  font-family: 'Roboto', 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+  text-align: center;
+  max-width: 500px;
+  margin: 0px auto;
+}
+
+h1 {
+  margin: 4px 0;
+  font-size: 36px;
+}
+
+header {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+#source-link {
+  position: absolute;
+  right: 1em;
+  top: 0.5em;
+}
+
+.correct,
+.present,
+.absent {
+  color: #fff !important;
+}
+
+.correct {
+  background-color: #6aaa64 !important;
+}
+
+.present {
+  background-color: #c9b458 !important;
+}
+
+.absent {
+  background-color: #787c7e !important;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #5200ff;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 9px #999;
+}
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.button-disabled {
+  background-color: #e7e7e7;
+  color: #ddd;
+  cursor: not-allowed;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center; /* This will center the buttons in the container */
+  flex-wrap: wrap; /* This will allow buttons to wrap to the next line on small screens */
+  gap: 10px; /* This sets the space between the buttons */
+  padding: 10px 0; /* Add some padding at the top and bottom of the container */
+}
+
