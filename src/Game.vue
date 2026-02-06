@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onUnmounted } from 'vue'
 import {
+  
   getWordOfTheDay,
   allWords,
   encodeBase64Unicode,
@@ -26,7 +27,7 @@ function generateUrl() {
   const normalizedWord = normalizeGreekWord(customWord.value)
   if (normalizedWord && normalizedWord.length === 5) {
     const encodedWord = encodeBase64Unicode(normalizedWord)
-    generatedUrl.value = `http://latijnwordle.netlify.app/?${encodedWord}`
+    generatedUrl.value = `http://griekswordle.netlify.app/?${encodedWord}`
     showMessage('URL gereed om te kopiëren.')
   } else {
     showMessage('Voer een woord in met vijf karakters!')
