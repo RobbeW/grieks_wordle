@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import Game from './Game.vue'
-import './game.css'
+import './game.css' 
 import { loadWordsFromUrl, setWordList } from './words'
 
 // resize functie
