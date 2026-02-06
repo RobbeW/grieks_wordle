@@ -120,6 +120,9 @@ header {
   flex: 1.4;
   font-size: 14px;
   padding: 0 6px;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: 0.2px;
 }
 
 #keyboard button:hover {
@@ -165,4 +168,3 @@ header {
     font-size: 14px;
   }
 }
-
