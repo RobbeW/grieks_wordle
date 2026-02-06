@@ -14,7 +14,7 @@ function onResize() {
 }
 
 async function init() {
-  const wordListUrl = import.meta.env.VITE_WORD_LIST_URL as string | undefined
+  const wordListUrl = (import.meta.env.VITE_WORD_LIST_URL as string | undefined) ?? '/words.js'
   if (wordListUrl) {
     try {
       const words = await loadWordsFromUrl(wordListUrl)
