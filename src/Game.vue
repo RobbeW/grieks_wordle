@@ -228,7 +228,7 @@ function generateShareableResult() {
     .map((row) => row.map((tile) => icons[tile.state]).join(''))
     .join('\n')
 
-  return `${title}\n\n${gridText} // Probeer zelf op latijnwordle.netlify.app`
+  return `${title}\n\n${gridText} // Probeer zelf op griekswordle.netlify.app`
 }
 
 // Functie om resultaat naar klembord te kopiëren
