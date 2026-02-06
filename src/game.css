@@ -77,4 +77,92 @@ header {
   gap: 10px; /* This sets the space between the buttons */
   padding: 10px 0; /* Add some padding at the top and bottom of the container */
 }
+#keyboard {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 10px 6px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(31, 41, 55, 0.12);
+}
+
+#keyboard .row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+#keyboard .spacer {
+  width: 28px;
+}
+
+#keyboard button {
+  flex: 1;
+  min-width: 0;
+  height: 52px;
+  border-radius: 12px;
+  border: 1px solid #d7d9e0;
+  background: #f3f4f8;
+  color: #1f2937;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.2s ease;
+  box-shadow: 0 3px 0 #d1d5db;
+}
+
+#keyboard button.big {
+  flex: 1.4;
+  font-size: 14px;
+  padding: 0 6px;
+}
+
+#keyboard button:hover {
+  background: #e7e9f4;
+}
+
+#keyboard button:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #c7cbd6;
+}
+
+#keyboard button.correct,
+#keyboard button.present,
+#keyboard button.absent {
+  color: #fff;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+#keyboard button.correct {
+  background: #2ea043;
+}
+
+#keyboard button.present {
+  background: #d29922;
+}
+
+#keyboard button.absent {
+  background: #9aa0aa;
+}
+
+@media (max-width: 520px) {
+  #keyboard {
+    padding: 10px 6px 4px;
+  }
+
+  #keyboard .row {
+    gap: 4px;
+  }
+
+  #keyboard button {
+    height: 46px;
+    font-size: 14px;
+  }
+}
 
