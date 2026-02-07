@@ -190,6 +190,18 @@ header {
   }
 }
 
+@media (hover: none) and (pointer: coarse) {
+  #keyboard .key-label--enter {
+    display: none;
+  }
+
+  #keyboard .key-label--enter-icon {
+    display: inline;
+    font-size: 18px;
+  }
+}
+
+
 
 @media (min-width: 768px) {
   #keyboard {
