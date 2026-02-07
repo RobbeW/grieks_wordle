@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onUnmounted } from 'vue'
 import {
-  
   getWordOfTheDay,
   allWords,
   encodeBase64Unicode,
@@ -74,7 +73,136 @@ let success = $ref(false)
 const letterStates: Record<string, LetterState> = $ref({})
 
 // Keyboard input.
-@@ -205,68 +206,68 @@ function shake() {
+let allowInput = true
+
+const onKeyup = (e: KeyboardEvent) => onKey(e.key)
+
+window.addEventListener('keyup', onKeyup)
+
+onUnmounted(() => {
+  window.removeEventListener('keyup', onKeyup)
+})
+
+function onKey(key: string) {
+  if (!allowInput) return
+
+  const normalizedKey = normalizeGreekWord(key)
+  if (/^\p{Script=Greek}$/u.test(normalizedKey)) {
+    fillTile(normalizedKey)
+  } else if (key === 'Backspace') {
+    clearTile()
+  } else if (key === 'Enter') {
+    completeRow()
+  }
+}
+
+function fillTile(letter: string) {
+  for (const tile of currentRow) {
+    if (!tile.letter) {
+      tile.letter = letter
+      break
+    }
+  }
+}
+
+function clearTile() {
+  for (const tile of [...currentRow].reverse()) {
+    if (tile.letter) {
+      tile.letter = ''
+      break
+    }
+  }
+}
+
+function completeRow() {
+  if (!allowInput) return
+
+  if (currentRow.every((tile) => tile.letter)) {
+    const guess = currentRow.map((tile) => tile.letter).join('')
+
+    if (!allWords.includes(guess) && guess !== answer) {
+      shake()
+      showMessage('Niet in woordenlijst.')
+      return
+    }
+
+    allowInput = false
+
+    // Markeer de staat van elke tile in de huidige rij
+    const answerLetters: (string | null)[] = answer.split('')
+
+    // Eerste pass: markeer correcte letters
+    currentRow.forEach((tile, i) => {
+      if (answerLetters[i] === tile.letter) {
+        tile.state = letterStates[tile.letter] = LetterState.CORRECT
+        answerLetters[i] = null
+      }
+    })
+
+    // Tweede pass: markeer aanwezige letters
+    currentRow.forEach((tile) => {
+      if (
+        tile.state !== LetterState.CORRECT &&
+        answerLetters.includes(tile.letter)
+      ) {
+        tile.state = letterStates[tile.letter] = LetterState.PRESENT
+        answerLetters[answerLetters.indexOf(tile.letter)] = null
+      }
+    })
+
+    // Derde pass: markeer afwezige letters
+    currentRow.forEach((tile) => {
+      if (!tile.state) {
+        tile.state = letterStates[tile.letter] = LetterState.ABSENT
+      }
+    })
+
+    // Controleer of de rij volledig correct is
+    if (currentRow.every((tile) => tile.state === LetterState.CORRECT)) {
+      setTimeout(() => {
+        grid = genResultGrid()
+        showMessage('Gewonnen!', 3000)
+        success = true
+        gameWin = true
+        gameFinished = true // Game is uigesteld, verander variabelen.
+        // Kopieer het resultaat naar klembord niet nodig
+      }, 3000)
+    } else if (currentRowIndex < board.length - 1) {
+      // Ga naar de volgende rij
+      currentRowIndex++
+      setTimeout(() => {
+        allowInput = true
+      }, 1600)
+    } else {
+      // Game over logica
+      gameFinished = true
+      setTimeout(() => {
+        showMessage('Juiste antwoord: ' + answer.toUpperCase(), 3000)
+      }, 1600)
+    }
+  } else {
+    shake()
+    showMessage('Onvoldoende letters.')
+  }
+}
+
+// Functie om bericht weer te geven
+function showMessage(msg: string, time = 1000) {
+  message = msg
+  if (time > 0) {
+    setTimeout(() => {
+      message = ''
+    }, time)
+  }
+}
+
+// Functie om de rij te schudden
+function shake() {
+  shakeRowIndex = currentRowIndex
+  setTimeout(() => {
+    shakeRowIndex = -1
+  }, 1000)
+}
 
 // Emoji-iconen voor de verschillende staten
 const icons: Record<number, string | null> = {
