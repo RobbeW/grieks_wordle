@@ -13,6 +13,7 @@ import { LetterState } from './types'
 let isModalVisible = ref(false)
 let customWord = ref('')
 let generatedUrl = ref('')
+let isHelpVisible = ref(false)
 
 function openModal() {
   isModalVisible.value = true
@@ -20,6 +21,14 @@ function openModal() {
 
 function closeModal() {
   isModalVisible.value = false
+}
+
+function openHelp() {
+  isHelpVisible.value = true
+}
+
+function closeHelp() {
+  isHelpVisible.value = false
 }
 
 function generateUrl() {
@@ -278,6 +287,44 @@ function promptForCustomWord() {
       </div>
     </div>
 
+    <div v-if="isHelpVisible" class="help-modal">
+      <div class="help-modal__panel">
+        <header class="help-modal__header">
+          <h2>Help / Hoe te spelen</h2>
+          <button class="button help-modal__close" @click="closeHelp">Sluit</button>
+        </header>
+        <div class="help-modal__content">
+          <section>
+            <h3>Spelregels</h3>
+            <p>Raad het Griekse woord in 6 pogingen. Elk woord heeft 5 letters.</p>
+          </section>
+          <section>
+            <h3>Kleuren</h3>
+            <ul>
+              <li>🟩 juiste letter en juiste plaats.</li>
+              <li>🟨 juiste letter, verkeerde plaats.</li>
+              <li>⬜ letter komt niet voor.</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Invoer</h3>
+            <p>Typ met je toetsenbord of gebruik het schermtoetsenbord.</p>
+            <p>Diacritica worden genormaliseerd.</p>
+          </section>
+          <section>
+            <h3>Aangepast woord</h3>
+            <p>Maak een eigen woord via “Stel een eigen woord in!” en deel de URL.</p>
+          </section>
+          <section>
+            <h3>Woordenboek</h3>
+            <p>Na afloop kun je het woord opzoeken bij Perseus.</p>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <button class="help-button" @click="openHelp" aria-label="Help">?</button>
+
     <Transition>
       <div class="message" v-if="message">
         {{ message }}
@@ -352,6 +399,7 @@ function promptForCustomWord() {
   flex-direction: column;
   align-items: center;
   padding: 16px;
+  position: relative;
 }
 
 .header {
@@ -513,6 +561,81 @@ h1 {
   color: #1a224c;
 }
 
+.help-button {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 0;
+  background: #5200ff;
+  color: #fff;
+  font-weight: 800;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(31, 41, 55, 0.2);
+  z-index: 25;
+}
+
+.help-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: grid;
+  place-items: center;
+  z-index: 40;
+  padding: 16px;
+}
+
+.help-modal__panel {
+  width: 100%;
+  max-width: 640px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+}
+
+.help-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.help-modal__header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.help-modal__close {
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.help-modal__content {
+  display: grid;
+  gap: 12px;
+}
+
+.help-modal__content h3 {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+}
+
+.help-modal__content p {
+  margin: 0 0 6px 0;
+}
+
+.help-modal__content ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
 @media (max-width: 520px) {
   h1 {
     font-size: 20px;
@@ -526,6 +649,72 @@ h1 {
   .tile {
     height: 44px;
     font-size: 18px;
+  }
+
+  .help-button {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .help-modal__panel {
+    padding: 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  .header,
+  .main {
+    max-width: 720px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  .tile {
+    height: 58px;
+    font-size: 24px;
+  }
+
+  .help-button {
+    position: absolute;
+    bottom: auto;
+    left: auto;
+    top: 18px;
+    right: 18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header,
+  .main {
+    max-width: 860px;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+
+  .tile {
+    height: 66px;
+    font-size: 28px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .header,
+  .main {
+    max-width: 980px;
+  }
+
+  h1 {
+    font-size: 36px;
+  }
+
+  .tile {
+    height: 76px;
+    font-size: 32px;
   }
 }
 
