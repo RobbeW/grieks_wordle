@@ -166,7 +166,7 @@ header {
   background: #9aa0aa;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 600px) {
   #keyboard {
     padding: 10px 6px 4px;
   }
@@ -189,6 +189,7 @@ header {
     font-size: 18px;
   }
 }
+
 
 @media (min-width: 768px) {
   #keyboard {
