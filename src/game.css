@@ -1,8 +1,15 @@
 body {
   font-family: 'Roboto', 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
   text-align: center;
-  max-width: 500px;
-  margin: 0px auto;
+  max-width: 100%;
+  margin: 0;
+  background: #f6f7fb;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 h1 {
@@ -77,6 +84,7 @@ header {
   gap: 10px; /* This sets the space between the buttons */
   padding: 10px 0; /* Add some padding at the top and bottom of the container */
 }
+
 #keyboard {
   width: 100%;
   max-width: 560px;
@@ -114,6 +122,10 @@ header {
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.2s ease;
   box-shadow: 0 3px 0 #d1d5db;
+}
+
+#keyboard .key-label--enter-icon {
+  display: none;
 }
 
 #keyboard button.big {
@@ -166,5 +178,63 @@ header {
   #keyboard button {
     height: 46px;
     font-size: 14px;
+  }
+
+  #keyboard .key-label--enter {
+    display: none;
+  }
+
+  #keyboard .key-label--enter-icon {
+    display: inline;
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 768px) {
+  #keyboard {
+    max-width: 720px;
+    padding: 16px 12px 8px;
+    gap: 10px;
+  }
+
+  #keyboard button {
+    height: 58px;
+    font-size: 18px;
+  }
+
+  #keyboard button.big {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  #keyboard {
+    max-width: 860px;
+    padding: 18px 14px 10px;
+  }
+
+  #keyboard button {
+    height: 66px;
+    font-size: 20px;
+  }
+
+  #keyboard button.big {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1440px) {
+  #keyboard {
+    max-width: 980px;
+    padding: 20px 16px 12px;
+  }
+
+  #keyboard button {
+    height: 74px;
+    font-size: 22px;
+  }
+
+  #keyboard button.big {
+    font-size: 17px;
   }
 }
