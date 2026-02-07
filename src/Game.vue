@@ -27,7 +27,7 @@ function generateUrl() {
   const normalizedWord = normalizeGreekWord(customWord.value)
   if (normalizedWord && normalizedWord.length === 5) {
     const encodedWord = encodeBase64Unicode(normalizedWord)
-    generatedUrl.value = `http://griekswordle.netlify.app/?${encodedWord}`
+    generatedUrl.value = `https://griekswordle.netlify.app/?${encodedWord}`
     showMessage('URL gereed om te kopiëren.')
   } else {
     showMessage('Voer een woord in met vijf karakters!')
@@ -45,9 +45,10 @@ function copyUrlToClipboard() {
 const answer = getWordOfTheDay()
 
 // Koppel het woord van de dag aan de URL voor de woordenboekfunctie:
-const dictionaryUrl = $computed(
-  () => `https://www.perseus.tufts.edu/hopper/morph?l=${answer}&la=grc`
-)
+const dictionaryUrl = $computed(() => {
+  const query = encodeURIComponent(answer.toLowerCase())
+  return `https://www.perseus.tufts.edu/hopper/morph?l=${query}&la=greek`
+})
 
 // Board state instellen:
 const board = $ref(
@@ -73,136 +74,7 @@ let success = $ref(false)
 const letterStates: Record<string, LetterState> = $ref({})
 
 // Keyboard input.
-let allowInput = true
-
-const onKeyup = (e: KeyboardEvent) => onKey(e.key)
-
-window.addEventListener('keyup', onKeyup)
-
-onUnmounted(() => {
-  window.removeEventListener('keyup', onKeyup)
-})
-
-function onKey(key: string) {
-  if (!allowInput) return
-
-  const normalizedKey = normalizeGreekWord(key)
-  if (/^\p{Script=Greek}$/u.test(normalizedKey)) {
-    fillTile(normalizedKey)
-  } else if (key === 'Backspace') {
-    clearTile()
-  } else if (key === 'Enter') {
-    completeRow()
-  }
-}
-
-function fillTile(letter: string) {
-  for (const tile of currentRow) {
-    if (!tile.letter) {
-      tile.letter = letter
-      break
-    }
-  }
-}
-
-function clearTile() {
-  for (const tile of [...currentRow].reverse()) {
-    if (tile.letter) {
-      tile.letter = ''
-      break
-    }
-  }
-}
-
-function completeRow() {
-  if (!allowInput) return
-
-  if (currentRow.every((tile) => tile.letter)) {
-    const guess = currentRow.map((tile) => tile.letter).join('')
-
-    if (!allWords.includes(guess) && guess !== answer) {
-      shake()
-      showMessage('Niet in woordenlijst.')
-      return
-    }
-
-    allowInput = false
-
-    // Markeer de staat van elke tile in de huidige rij
-    const answerLetters: (string | null)[] = answer.split('')
-
-    // Eerste pass: markeer correcte letters
-    currentRow.forEach((tile, i) => {
-      if (answerLetters[i] === tile.letter) {
-        tile.state = letterStates[tile.letter] = LetterState.CORRECT
-        answerLetters[i] = null
-      }
-    })
-
-    // Tweede pass: markeer aanwezige letters
-    currentRow.forEach((tile) => {
-      if (
-        tile.state !== LetterState.CORRECT &&
-        answerLetters.includes(tile.letter)
-      ) {
-        tile.state = letterStates[tile.letter] = LetterState.PRESENT
-        answerLetters[answerLetters.indexOf(tile.letter)] = null
-      }
-    })
-
-    // Derde pass: markeer afwezige letters
-    currentRow.forEach((tile) => {
-      if (!tile.state) {
-        tile.state = letterStates[tile.letter] = LetterState.ABSENT
-      }
-    })
-
-    // Controleer of de rij volledig correct is
-    if (currentRow.every((tile) => tile.state === LetterState.CORRECT)) {
-      setTimeout(() => {
-        grid = genResultGrid()
-        showMessage('Gewonnen!', 3000)
-        success = true
-        gameWin = true
-        gameFinished = true // Game is uigesteld, verander variabelen.
-        // Kopieer het resultaat naar klembord niet nodig
-      }, 3000)
-    } else if (currentRowIndex < board.length - 1) {
-      // Ga naar de volgende rij
-      currentRowIndex++
-      setTimeout(() => {
-        allowInput = true
-      }, 1600)
-    } else {
-      // Game over logica
-      gameFinished = true
-      setTimeout(() => {
-        showMessage('Juiste antwoord: ' + answer.toUpperCase(), 3000)
-      }, 1600)
-    }
-  } else {
-    shake()
-    showMessage('Onvoldoende letters.')
-  }
-}
-
-// Functie om bericht weer te geven
-function showMessage(msg: string, time = 1000) {
-  message = msg
-  if (time > 0) {
-    setTimeout(() => {
-      message = ''
-    }, time)
-  }
-}
-
-// Functie om de rij te schudden
-function shake() {
-  shakeRowIndex = currentRowIndex
-  setTimeout(() => {
-    shakeRowIndex = -1
-  }, 1000)
-}
+@@ -205,68 +206,68 @@ function shake() {
 
 // Emoji-iconen voor de verschillende staten
 const icons: Record<number, string | null> = {
@@ -245,7 +117,7 @@ function promptForCustomWord() {
   const normalizedWord = normalizeGreekWord(custom ?? '')
   if (normalizedWord && normalizedWord.length === 5) {
     const encodedWord = encodeBase64Unicode(normalizedWord)
-    const newUrl = `http://latijnwordle.netlify.app/?${encodedWord}`
+    const newUrl = `https://griekswordle.netlify.app/?${encodedWord}`
     generatedUrl.value = newUrl
     showMessage('Klik op de knop om de URL te kopiëren.')
   } else {
@@ -493,6 +365,7 @@ h1 {
 
 .custom-modal input {
   width: 100%;
+  max-width: 100%;
   padding: 10px 12px;
   border-radius: 10px;
   border: 2px solid #e3e3e3;
@@ -510,6 +383,22 @@ h1 {
   font-size: 14px;
   word-break: break-all;
   color: #1a224c;
+}
+
+@media (max-width: 520px) {
+  h1 {
+    font-size: 20px;
+  }
+
+  .button {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+
+  .tile {
+    height: 44px;
+    font-size: 18px;
+  }
 }
 
 @keyframes shake {
