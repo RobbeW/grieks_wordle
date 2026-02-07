@@ -137,14 +137,31 @@ function completeRow() {
 
     allowInput = false
 
-    // Markeer de staat van elke tile in de huidige rij
-    const answerLetters: (string | null)[] = answer.split('')
+    const letterCounts = new Map<string, number>()
+    answer.split('').forEach((letter) => {
+      letterCounts.set(letter, (letterCounts.get(letter) ?? 0) + 1)
+    })
+
+    const stateRank: Record<LetterState, number> = {
+      [LetterState.INITIAL]: 0,
+      [LetterState.ABSENT]: 1,
+      [LetterState.PRESENT]: 2,
+      [LetterState.CORRECT]: 3
+    }
+
+    const setLetterState = (letter: string, state: LetterState) => {
+      const current = letterStates[letter] ?? LetterState.INITIAL
+      if (stateRank[state] > stateRank[current]) {
+        letterStates[letter] = state
+      }
+    }
 
     // Eerste pass: markeer correcte letters
     currentRow.forEach((tile, i) => {
-      if (answerLetters[i] === tile.letter) {
-        tile.state = letterStates[tile.letter] = LetterState.CORRECT
-        answerLetters[i] = null
+      if (answer[i] === tile.letter) {
+        tile.state = LetterState.CORRECT
+        setLetterState(tile.letter, LetterState.CORRECT)
+        letterCounts.set(tile.letter, (letterCounts.get(tile.letter) ?? 0) - 1)
       }
     })
 
@@ -152,17 +169,19 @@ function completeRow() {
     currentRow.forEach((tile) => {
       if (
         tile.state !== LetterState.CORRECT &&
-        answerLetters.includes(tile.letter)
+        (letterCounts.get(tile.letter) ?? 0) > 0
       ) {
-        tile.state = letterStates[tile.letter] = LetterState.PRESENT
-        answerLetters[answerLetters.indexOf(tile.letter)] = null
+        tile.state = LetterState.PRESENT
+        setLetterState(tile.letter, LetterState.PRESENT)
+        letterCounts.set(tile.letter, (letterCounts.get(tile.letter) ?? 0) - 1)
       }
     })
 
     // Derde pass: markeer afwezige letters
     currentRow.forEach((tile) => {
       if (!tile.state) {
-        tile.state = letterStates[tile.letter] = LetterState.ABSENT
+        tile.state = LetterState.ABSENT
+        setLetterState(tile.letter, LetterState.ABSENT)
       }
     })
 
@@ -195,6 +214,7 @@ function completeRow() {
   }
 }
 
+
 // Functie om bericht weer te geven
 function showMessage(msg: string, time = 1000) {
   message = msg
@@ -213,7 +233,7 @@ function shake() {
   }, 1000)
 }
 
-// Emoji-iconen voor de verschillende staten
+
 const icons: Record<number, string | null> = {
   [LetterState.CORRECT]: '🟩',
   [LetterState.PRESENT]: '🟨',
@@ -221,7 +241,7 @@ const icons: Record<number, string | null> = {
   [LetterState.INITIAL]: null
 }
 
-// Genereer resultaatgrid voor delen
+
 function genResultGrid() {
   return board
     .slice(0, currentRowIndex + 1)
@@ -229,7 +249,7 @@ function genResultGrid() {
     .join('\n')
 }
 
-// Functie om deelbaar resultaat te genereren
+
 function generateShareableResult() {
   const title = `GRIEKSE WORDLE ${currentRowIndex + 1}/6`
   const gridText = board
@@ -240,7 +260,6 @@ function generateShareableResult() {
   return `${title}\n\n${gridText} // Probeer zelf op griekswordle.netlify.app`
 }
 
-// Functie om resultaat naar klembord te kopiëren
 function copyResultToClipboard() {
   const result = generateShareableResult()
   navigator.clipboard
