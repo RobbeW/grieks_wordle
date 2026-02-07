@@ -438,6 +438,16 @@ h1 {
   align-items: center;
   justify-content: center;
   user-select: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(31, 41, 55, 0.18);
+}
+
+.button:active {
+  transform: translateY(0);
 }
 
 .button-disabled {
@@ -477,18 +487,21 @@ h1 {
   font-size: 22px;
   text-transform: uppercase;
   background: #fff;
+  transition: transform 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .tile.correct {
   border-color: transparent;
   background: #2ea043;
   color: #fff;
+  transform: scale(1.02);
 }
 
 .tile.present {
   border-color: transparent;
   background: #d29922;
   color: #fff;
+  transform: scale(1.02);
 }
 
 .tile.absent {
@@ -537,6 +550,7 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  animation: pop-in 0.2s ease-out;
 }
 
 .custom-modal input {
@@ -576,6 +590,12 @@ h1 {
   cursor: pointer;
   box-shadow: 0 12px 24px rgba(31, 41, 55, 0.2);
   z-index: 25;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.help-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(31, 41, 55, 0.24);
 }
 
 .help-modal {
@@ -586,6 +606,7 @@ h1 {
   place-items: center;
   z-index: 40;
   padding: 16px;
+  animation: fade-in 0.2s ease-out;
 }
 
 .help-modal__panel {
@@ -598,6 +619,7 @@ h1 {
   flex-direction: column;
   gap: 16px;
   text-align: left;
+  animation: pop-in 0.2s ease-out;
 }
 
 .help-modal__header {
@@ -615,6 +637,7 @@ h1 {
 .help-modal__close {
   padding: 8px 12px;
   font-size: 14px;
+  box-shadow: none;
 }
 
 .help-modal__content {
@@ -741,5 +764,25 @@ h1 {
 
 .row.shake {
   animation: shake 0.5s ease-in-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 </style>
