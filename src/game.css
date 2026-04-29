@@ -79,10 +79,10 @@ header {
 
 .button-container {
   display: flex;
-  justify-content: center; /* This will center the buttons in the container */
-  flex-wrap: wrap; /* This will allow buttons to wrap to the next line on small screens */
-  gap: 10px; /* This sets the space between the buttons */
-  padding: 10px 0; /* Add some padding at the top and bottom of the container */
+  justify-content: center; 
+  flex-wrap: wrap; 
+  gap: 10px; 
+  padding: 10px 0; 
 }
 
 #keyboard {
@@ -122,6 +122,10 @@ header {
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.2s ease;
   box-shadow: 0 3px 0 #d1d5db;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 #keyboard .key-label--enter-icon {
