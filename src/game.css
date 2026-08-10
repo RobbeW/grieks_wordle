@@ -12,23 +12,6 @@ body {
   box-sizing: border-box;
 }
 
-h1 {
-  margin: 4px 0;
-  font-size: 36px;
-}
-
-header {
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 0;
-  position: relative;
-}
-
-#source-link {
-  position: absolute;
-  right: 1em;
-  top: 0.5em;
-}
-
 .correct,
 .present,
 .absent {
@@ -45,44 +28,6 @@ header {
 
 .absent {
   background-color: #787c7e !important;
-}
-
-.button {
-  display: inline-block;
-  padding: 10px 20px;
-  margin: 0;
-  font-size: 16px;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  outline: none;
-  color: #fff;
-  background-color: #5200ff;
-  border: none;
-  border-radius: 5px;
-  box-shadow: 0 9px #999;
-}
-
-.button:hover {background-color: #3e8e41}
-
-.button:active {
-  background-color: #3e8e41;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
-}
-
-.button-disabled {
-  background-color: #e7e7e7;
-  color: #ddd;
-  cursor: not-allowed;
-}
-
-.button-container {
-  display: flex;
-  justify-content: center; 
-  flex-wrap: wrap; 
-  gap: 10px; 
-  padding: 0;
 }
 
 #keyboard {

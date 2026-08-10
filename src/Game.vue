@@ -430,6 +430,8 @@ function promptForCustomWord() {
   flex-direction: column;
   align-items: center;
   gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #d7d9e0;
 }
 
 .header__title-row {
@@ -477,7 +479,7 @@ h1 {
 
 .button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(31, 41, 55, 0.18);
+  box-shadow: 0 2px 4px rgba(31, 41, 55, 0.18);
 }
 
 .button:active {
@@ -808,6 +810,7 @@ h1 {
 
   .header {
     gap: 6px;
+    padding-bottom: 8px;
   }
 
   h1 {
@@ -853,6 +856,7 @@ h1 {
 
   .header {
     gap: 4px;
+    padding-bottom: 6px;
   }
 
   h1 {
