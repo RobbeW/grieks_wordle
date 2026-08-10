@@ -342,8 +342,6 @@ function promptForCustomWord() {
       </div>
     </div>
 
-    <button class="help-button" @click="openHelp" aria-label="Help">?</button>
-
     <Transition>
       <div class="message" v-if="message">
         {{ message }}
@@ -352,7 +350,10 @@ function promptForCustomWord() {
     </Transition>
 
     <header class="header">
-      <h1>GRIEKSE WORDLE</h1>
+      <div class="header__title-row">
+        <h1>GRIEKSE WORDLE</h1>
+        <button class="help-button" type="button" @click="openHelp" aria-label="Help">?</button>
+      </div>
 
       <div class="button-container">
         <button class="button" @click="openModal">Stel een eigen woord in!</button>
@@ -413,6 +414,7 @@ function promptForCustomWord() {
 <style scoped>
 .app {
   min-height: 100vh;
+  min-height: 100dvh;
   font-family: Roboto, system-ui, -apple-system, Segoe UI, Arial, sans-serif;
   display: flex;
   flex-direction: column;
@@ -428,6 +430,19 @@ function promptForCustomWord() {
   flex-direction: column;
   align-items: center;
   gap: 12px;
+}
+
+.header__title-row {
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.header__title-row h1 {
+  margin: 0;
 }
 
 h1 {
@@ -481,7 +496,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  margin-top: 18px;
+  margin-top: 12px;
 }
 
 .board {
@@ -563,6 +578,9 @@ h1 {
 .custom-modal__panel {
   width: 100%;
   max-width: 520px;
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
   background: #fff;
   border-radius: 14px;
   padding: 16px;
@@ -595,9 +613,9 @@ h1 {
 }
 
 .help-button {
-  position: fixed;
-  bottom: 16px;
-  left: 16px;
+  position: absolute;
+  top: 50%;
+  right: 0;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -609,11 +627,12 @@ h1 {
   cursor: pointer;
   box-shadow: 0 12px 24px rgba(31, 41, 55, 0.2);
   z-index: 25;
+  transform: translateY(-50%);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .help-button:hover {
-  transform: translateY(-2px);
+  transform: translateY(calc(-50% - 2px));
   box-shadow: 0 16px 30px rgba(31, 41, 55, 0.24);
 }
 
@@ -625,12 +644,17 @@ h1 {
   place-items: center;
   z-index: 40;
   padding: 16px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   animation: fade-in 0.2s ease-out;
 }
 
 .help-modal__panel {
   width: 100%;
   max-width: 640px;
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
   background: #fff;
   border-radius: 16px;
   padding: 20px;
@@ -679,13 +703,36 @@ h1 {
 }
 
 @media (max-width: 520px) {
+  .app {
+    padding: 8px;
+  }
+
+  .header {
+    gap: 6px;
+  }
+
   h1 {
     font-size: 20px;
+    margin-top: 0;
+  }
+
+  .button-container {
+    gap: 6px;
   }
 
   .button {
-    padding: 8px 10px;
-    font-size: 14px;
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .main {
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .board,
+  .row {
+    gap: 6px;
   }
 
   .tile {
@@ -719,13 +766,6 @@ h1 {
     font-size: 24px;
   }
 
-  .help-button {
-    position: absolute;
-    bottom: auto;
-    left: auto;
-    top: 18px;
-    right: 18px;
-  }
 }
 
 @media (min-width: 1024px) {
@@ -757,6 +797,97 @@ h1 {
   .tile {
     height: 76px;
     font-size: 32px;
+  }
+}
+
+@media (max-height: 900px) {
+  .app {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .header {
+    gap: 6px;
+  }
+
+  h1 {
+    margin-top: 0;
+  }
+
+  .button-container {
+    gap: 6px;
+  }
+
+  .button {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+
+  .main {
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .board,
+  .row {
+    gap: 6px;
+  }
+}
+
+@media (min-width: 521px) and (max-height: 900px) {
+  h1 {
+    font-size: clamp(20px, 3vh, 28px);
+  }
+
+  .tile {
+    height: clamp(38px, 6vh, 58px);
+    font-size: clamp(18px, 2.6vh, 24px);
+  }
+}
+
+@media (max-height: 500px) {
+  .app {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .header {
+    gap: 4px;
+  }
+
+  h1 {
+    font-size: 18px;
+  }
+
+  .button-container {
+    gap: 4px;
+  }
+
+  .button {
+    padding: 3px 5px;
+    font-size: 11px;
+  }
+
+  .main {
+    gap: 4px;
+    margin-top: 4px;
+  }
+
+  .board,
+  .row {
+    gap: 3px;
+  }
+
+  .tile {
+    height: clamp(28px, 7vh, 34px);
+    border-radius: 6px;
+    font-size: 16px;
+  }
+
+  .help-button {
+    width: 34px;
+    height: 34px;
+    font-size: 16px;
   }
 }
 

@@ -3,16 +3,6 @@ import Game from './Game.vue'
 import './game.css' 
 import { loadWordsFromUrl, setWordList } from './words'
 
-// resize functie
-window.addEventListener('resize', onResize)
-// stel de afmetingen in bij opstarten
-onResize()
-
-function onResize() {
-  // verkrijg de hoogte bij gebruik op smartphone
-  document.body.style.setProperty('--vh', window.innerHeight + 'px')
-}
-
 async function init() {
   const wordListUrl = (import.meta.env.VITE_WORD_LIST_URL as string | undefined) ?? '/words.js'
   if (wordListUrl) {

@@ -24,12 +24,24 @@ const rows = [
         v-for="key in row"
         :key="key"
         :class="[key.length > 1 && 'big', letterStates[key]]"
+        :aria-label="
+          key === 'Enter'
+            ? 'Invoeren'
+            : key === 'Backspace'
+              ? 'Letter verwijderen'
+              : key
+        "
+        type="button"
         @click="$emit('key', key)"
       >
-        <span v-if="key === 'Enter'" class="key-label--enter-icon" aria-hidden="true">↵</span>
+        <template v-if="key === 'Enter'">
+          <span class="key-label--enter">Enter</span>
+          <span class="key-label--enter-icon" aria-hidden="true">↵</span>
+        </template>
         <span v-else-if="key !== 'Backspace'">{{ key }}</span>
         <svg
           v-else
+          aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           height="24"
           viewBox="0 0 24 24"
