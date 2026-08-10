@@ -468,7 +468,10 @@ h1 {
   cursor: pointer;
   background: #5200ff;
   color: #fff;
+  font-family: inherit;
+  font-size: 14px;
   font-weight: 700;
+  line-height: 1.2;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
